@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/CCNIOService/CCNIOService.iml" filepath="$PROJECT_DIR$/CCNIOService/CCNIOService.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CCNSIA.iml" filepath="$PROJECT_DIR$/CCNSIA.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CCNServiceHandler/CCNServiceHandler.iml" filepath="$PROJECT_DIR$/CCNServiceHandler/CCNServiceHandler.iml" />
+      <module fileurl="file://$PROJECT_DIR$/htmlParseService/htmlParseService.iml" filepath="$PROJECT_DIR$/htmlParseService/htmlParseService.iml" />
+    </modules>
+  </component>
+</project>
