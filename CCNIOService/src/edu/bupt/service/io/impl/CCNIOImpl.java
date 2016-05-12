@@ -2,6 +2,7 @@ package edu.bupt.service.io.impl;
 
 import edu.bupt.service.io.CCNIOManage;
 import org.ccnx.ccn.CCNHandle;
+import org.ccnx.ccn.config.ConfigurationException;
 import org.ccnx.ccn.io.CCNFileInputStream;
 import org.ccnx.ccn.io.CCNFileOutputStream;
 import org.ccnx.ccn.io.RepositoryFileOutputStream;
@@ -22,7 +23,14 @@ public class CCNIOImpl implements CCNIOManage {
 
     public CCNIOImpl(CCNHandle ccnHandle) throws NullPointerException{
         if(ccnHandle != null){
-            this.ccnHandle = ccnHandle;
+            //this.ccnHandle = ccnHandle;
+            try {
+                this.ccnHandle = CCNHandle.open();
+            } catch (ConfigurationException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }else{
             throw new NullPointerException("CCNHandle should not be null");
         }
@@ -31,6 +39,7 @@ public class CCNIOImpl implements CCNIOManage {
     @Override
     public CCNFileInputStream getCCNFile(String contentName) {
         try {
+            System.out.println("getCCNFile:"+contentName);
             ContentName cn = ContentName.fromURI(contentName);
             CCNFileInputStream cis = new CCNFileInputStream(cn, ccnHandle);
             return cis;

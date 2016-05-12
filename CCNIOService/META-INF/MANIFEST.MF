@@ -8,5 +8,5 @@ Bundle-Version: 1.0.0
 Created-By: 1.8.0_77 (Oracle Corporation)
 Export-Package: edu.bupt.service.io;version="1.0";uses:="org.ccnx.ccn.io
  ,org.osgi.framework"
-Import-Package: org.osgi.framework,org.ccnx.ccn,org.ccnx.ccn.io,org.ccnx.ccn.protocol,org.ccnx.ccn.profiles
+Import-Package: org.osgi.framework,org.ccnx.ccn,org.ccnx.ccn.io,org.ccnx.ccn.protocol,org.ccnx.ccn.profiles,org.ccnx.ccn.config
 Require-Capability: osgi.ee; filter="(&(osgi.ee=JavaSE)(version=1.8))"

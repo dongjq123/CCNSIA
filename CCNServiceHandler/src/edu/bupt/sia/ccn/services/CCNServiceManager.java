@@ -145,11 +145,15 @@ public class CCNServiceManager{
 
     public void installService(String serviceName) {
         Bundle bundle = _serviceController.installBundleByCCNIOStream(serviceName);
+        if(bundle == null){
+            System.out.println("bundle install failed!");
+            return;
+        }
         long serviceID = bundle.getBundleId();
         String serviceVersion = bundle.getVersion().toString();
 
         int servicePopularity = 0;
-//        servicePopularity = _servicePopularity.get_CCNServicePopularity().get(serviceName);
+        servicePopularity = _servicePopularity.get_CCNServicePopularity().get(serviceName);
 
         CCNServiceObject CCNService_Object = null;
         try {
