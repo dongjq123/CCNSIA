@@ -102,7 +102,7 @@ public class CCNServiceManager{
         }
 
         int removedService_index = 0;
-        removedService_index = getMinNum(servicePriority_list);
+        removedService_index = getMinIndex(servicePriority_list);
 
         String removedService = null;
         removedService = serviceName_list[removedService_index];
