@@ -17,12 +17,12 @@ import java.lang.reflect.Method;
 /**
  * Created by fish on 16-4-11.
  */
-public class OSGIContoller {
+public class OSGIController {
     private BundleContext bundleContext;
     final static protected String CCNServiceTag = "CCNService";
     final static protected String servicePrefix = "ccnx:/";
 
-    public OSGIContoller(BundleContext context){
+    public OSGIController(BundleContext context){
         this.bundleContext = context;
     }
 
