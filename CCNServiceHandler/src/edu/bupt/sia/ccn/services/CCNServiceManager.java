@@ -17,14 +17,14 @@ import java.util.*;
 
 public class CCNServiceManager{
     CCNServiceTable<String, CCNServiceObject> _serviceTable = new CCNServiceTable<>(5);
-    OSGIContoller _serviceController;
+    OSGIController _serviceController;
     CCNServicePopularity _servicePopularity = new CCNServicePopularity();
     Hashtable<String, Integer> _servicePriorityTable = new Hashtable<>();
 
     public CCNServiceManager(BundleContext bundleContext)
             throws MalformedContentNameStringException, ConfigurationException,
             IOException {
-        _serviceController = new OSGIContoller(bundleContext);
+        _serviceController = new OSGIController(bundleContext);
         System.out.println("CCNServiceManager Start!");
     }
 
@@ -102,7 +102,7 @@ public class CCNServiceManager{
         }
 
         int removedService_index = 0;
-        removedService_index = getMinNum(servicePriority_list);
+        removedService_index = getMinIndex(servicePriority_list);
 
         String removedService = null;
         removedService = serviceName_list[removedService_index];
