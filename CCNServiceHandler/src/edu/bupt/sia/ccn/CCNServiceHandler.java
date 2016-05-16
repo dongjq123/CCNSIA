@@ -73,6 +73,15 @@ public class CCNServiceHandler implements CCNInterestHandler {
                     interest.name());
             return false;
         }
+        if (interest.name().contains(
+                "_meta_".getBytes()) || interest.name().contains(
+                ".header".getBytes())) {
+            Log.info(
+                    "Got an interest for the first segment of the header, ignoring {0}.",
+                    interest.name());
+            return false;
+        }
+
         ServiceNameObject serviceNameObject = ServiceNameParser.parseServiceName(interest.name());
         if(serviceNameObject != null) {
             if (serviceNameObject.getServiceName() != null
@@ -84,6 +93,7 @@ public class CCNServiceHandler implements CCNInterestHandler {
             }
         }else{
             Log.warning("ServiceNameObject is null!");
+            return false;
         }
         return false;
     }

@@ -39,8 +39,9 @@ public class CCNIOImpl implements CCNIOManage {
     @Override
     public CCNFileInputStream getCCNFile(String contentName) {
         try {
-            System.out.println("getCCNFile:"+contentName);
+
             ContentName cn = ContentName.fromURI(contentName);
+            System.out.println("getCCNFile:"+contentName);
             CCNFileInputStream cis = new CCNFileInputStream(cn, ccnHandle);
             return cis;
         } catch (MalformedContentNameStringException e) {

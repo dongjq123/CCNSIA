@@ -18,14 +18,14 @@ public class CCNServicePopularity {
 
 
     public String RegexMatches(String textString) {
-        String start = "ccnx:/";
+        String start = "ccnx:/edu.bupt.service.";
         String end = "/=";
-        String regex = String.format("(%s)(.*?)(%s)", start,end);
+        String regex = String.format("(%s)(.*?)(%s)", start, end);
         Pattern pattern = Pattern.compile(regex);
         Matcher match = pattern.matcher(textString);
 
         if (match.find()) {
-            return match.group(2);
+            return match.group(1) + match.group(2);
         } else {
             return null;
         }
@@ -33,7 +33,7 @@ public class CCNServicePopularity {
 
     public void popularityCount(String outputString) {
         Map<String,Integer> map = new HashMap<String, Integer>();
-        StringTokenizer st = new StringTokenizer(outputString,",.! \n");
+        StringTokenizer st = new StringTokenizer(outputString, "\n");
 
         while (st.hasMoreTokens()) {
             String letter = st.nextToken();
@@ -65,7 +65,7 @@ public class CCNServicePopularity {
             if (frequency >0 && frequency <0.5) {
                 popularity = 1;
             }
-            if (frequency >=0.5 && frequency <1) {
+            if (frequency >=0.5 && frequency <=1) {
                 popularity = 2;
             }
             _CCNServicePopularity.put(w.getKey(), popularity); //CCNServicePopularity Table it is what we need
@@ -89,8 +89,10 @@ public class CCNServicePopularity {
                     String text;
                     while ((text = input.readLine()) != null) {
                         if (text.contains("content_to") && !text.contains("selfreg") && !text.contains("localhost") && !text.contains("ccnx.org")) {
-                            text = "ccnx:/" + RegexMatches(text);
-                            buffer.append(text + "\n");
+                            text = RegexMatches(text);
+                            if (text != null) {
+                                buffer.append(text + "\n");
+                            }
                         }
                     }
                     output = buffer.toString();

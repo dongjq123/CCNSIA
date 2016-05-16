@@ -89,7 +89,7 @@ public class ServiceNameParser {
                             break;
                     }
 //                serviceNameObject = JSON.parseObject(tmp, ServiceNameObject.class);
-                }else{
+                }else if (tmp.charAt(0) == '=') {return null;} else{
                     sn = sn + "." + name.stringComponent(i);
                 }
             }
