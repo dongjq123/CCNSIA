@@ -153,7 +153,7 @@ public class CCNServiceManager{
         String serviceVersion = bundle.getVersion().toString();
 
         int servicePopularity = 0;
-        servicePopularity = _servicePopularity.get_CCNServicePopularity().get(serviceName);
+        //servicePopularity = _servicePopularity.get_CCNServicePopularity().get(serviceName);
 
         CCNServiceObject CCNService_Object = null;
         try {

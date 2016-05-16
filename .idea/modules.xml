@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/CCNSIA.iml" filepath="$PROJECT_DIR$/CCNSIA.iml" />
       <module fileurl="file://$PROJECT_DIR$/CCNServiceHandler/CCNServiceHandler.iml" filepath="$PROJECT_DIR$/CCNServiceHandler/CCNServiceHandler.iml" />
       <module fileurl="file://$PROJECT_DIR$/htmlParseService/htmlParseService.iml" filepath="$PROJECT_DIR$/htmlParseService/htmlParseService.iml" />
+      <module fileurl="file://$PROJECT_DIR$/imgCompress/imgCompress.iml" filepath="$PROJECT_DIR$/imgCompress/imgCompress.iml" />
     </modules>
   </component>
 </project>

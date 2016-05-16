@@ -73,7 +73,7 @@ public class CCNServiceHandler implements CCNInterestHandler {
                     interest.name());
             return false;
         }
-        ServiceNameObject serviceNameObject = ServiceNameParser.getServiceName(interest.name());
+        ServiceNameObject serviceNameObject = ServiceNameParser.parseServiceName(interest.name());
         if(serviceNameObject != null) {
             if (serviceNameObject.getServiceName() != null
                     && serviceNameObject.getServiceName().length() > 0) {

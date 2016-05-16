@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="edu.bupt.service.imgcompress:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/edu_bupt_service_imgcompress_jar</output-path>
+    <root id="archive" name="edu.bupt.service.imgcompress.jar">
+      <element id="module-output" name="imgCompress" />
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/imgCompress/META-INF/MANIFEST.MF" />
+      </element>
+    </root>
+  </artifact>
+</component>

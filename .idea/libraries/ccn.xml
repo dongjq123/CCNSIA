@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="ccn">
+    <CLASSES>
+      <root url="jar:///usr/local/lib/ccn.jar!/" />
+      <root url="jar:///usr/local/lib/bcprov-jdk16-143.jar!/" />
+      <root url="jar:///usr/local/lib/kxml2-2.3.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
