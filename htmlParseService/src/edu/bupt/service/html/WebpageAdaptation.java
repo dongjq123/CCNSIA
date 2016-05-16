@@ -1,6 +1,7 @@
 package edu.bupt.service.html;
 
 import java.io.*;
+import java.util.Iterator;
 
 import edu.bupt.service.io.CCNIOManage;
 import edu.bupt.service.io.ICCNService;
@@ -14,6 +15,7 @@ import org.jsoup.select.Elements;
 /**
  * Created by yangkuang on 16-4-21.
  */
+/*
 public class WebpageAdaptation implements ICCNService{
     private CCNIOManage manage;
     private static boolean hasRun=false;
@@ -82,6 +84,55 @@ public class WebpageAdaptation implements ICCNService{
                 dot.close();
                 drt.close();
 
+            }else {
+                throw new IOException("args should not be null!!");
+            }
+            hasRun = true;
+        }
+    }
+
+}
+*/
+
+public class WebpageAdaptation implements ICCNService{
+    private CCNIOManage manage;
+    private static boolean hasRun=false;
+
+    public WebpageAdaptation(CCNIOManage manage){
+        this.manage = manage;
+    }
+
+    @Override
+    public void execute(String args[], Interest interest) throws IOException {
+        if (!hasRun) {
+            if (args.length > 1) {
+                String htmlFile = "ccnx:/contents/"+args[0];
+                InputStream ips = manage.getCCNFile(htmlFile);
+                ParseHtml htmlParser = new ParseHtml(ips, "UTF-8", "ccnx:/");
+                Document htmlDocument = htmlParser.getDocument();
+
+                Elements imgs = htmlDocument.getElementsByTag("img");
+
+                if (imgs!=null) {
+                    Iterator<Element> images = imgs.iterator();
+                    while (images.hasNext()) {
+                        Element img = images.next();
+                        String src = img.attr("src");
+                        if(src!=null && src.startsWith("ccnx:/")) {
+                            InputStream ipt_img = manage.getCCNFile(src); //get the img
+
+                            CCNFileOutputStream cfo = manage.writeCCNBack(interest);
+                            DataOutputStream dot = new DataOutputStream(cfo);
+                            DataOutputStream drt = new DataOutputStream(manage.putRepoFile(interest.getContentName().toURIString()));
+                            dot.writeChars(htmlDocument.html());
+                            drt.writeChars(htmlDocument.html());
+                            dot.flush();
+                            drt.flush();
+                            dot.close();
+                            drt.close();
+                        }
+                    }
+                }
             }else {
                 throw new IOException("args should not be null!!");
             }
