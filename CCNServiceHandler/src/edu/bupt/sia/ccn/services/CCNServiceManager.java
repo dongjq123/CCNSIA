@@ -132,11 +132,11 @@ public class CCNServiceManager{
 
     }
 
-    public void installService(String serviceName) {
+    public boolean installService(String serviceName) {
         Bundle bundle = _serviceController.installBundleByCCNIOStream(serviceName);
         if(bundle == null){
             System.out.println("bundle install failed!");
-            return;
+            return false;
         }
         long serviceID = bundle.getBundleId();
         String serviceVersion = bundle.getVersion().toString();
@@ -155,7 +155,7 @@ public class CCNServiceManager{
             e.printStackTrace();
         }
         _serviceTable.put(serviceName, CCNService_Object);
-
+        return true;
     }
 
     public void startLocalService(ServiceNameObject serviceNameObject, Interest interest) {
@@ -176,14 +176,20 @@ public class CCNServiceManager{
             } else {
                 System.out.println("Need to update the version of Service:"+serviceName+"");
                 removeService(serviceName);
-                installService(serviceName);
+                if(!installService(serviceName)){
+                    System.err.println("Service install error!!");
+                    return;
+                }
                 startLocalService(serviceNameObject, interest);
             }
         }else {
             System.out.println("Service:"+serviceName+" is not existed and installing..");
             if (serviceTable_withinSize()) {//check whether the CCNServiceTable is full of service
                 System.out.println("CCNServiceTable is within the max size...Service:"+serviceName+" is installing..");
-                installService(serviceName);
+                if(!installService(serviceName)){
+                    System.err.println("Service install error!!");
+                    return;
+                }
                 startLocalService(serviceNameObject, interest);
             } else {
                 System.out.println("CCNServiceTable is outside the max size...Check whether Service:"+serviceName+" can be installed..");
@@ -192,7 +198,10 @@ public class CCNServiceManager{
 
                     removeService(service_tobeRemoved());
 
-                    installService(serviceName);
+                    if(!installService(serviceName)){
+                        System.err.println("Service install error!!");
+                        return;
+                    }
                     startLocalService(serviceNameObject, interest);
                 } else {
                     System.out.println("Do not meet the requirement to replace one old service in CCNServiceTable...Service:"+serviceName+" is dropped..");

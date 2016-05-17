@@ -1,7 +1,5 @@
 package edu.bupt.service.img;
 
-import com.sun.image.codec.jpeg.JPEGCodec;
-import com.sun.image.codec.jpeg.JPEGImageEncoder;
 import edu.bupt.service.io.CCNIOManage;
 import edu.bupt.service.io.ICCNService;
 import org.ccnx.ccn.io.CCNFileInputStream;
@@ -13,6 +11,9 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 /**
  * Created by fish on 16-5-13.
@@ -54,15 +55,30 @@ public class ImgCompress implements ICCNService {
         CCNFileOutputStream cfo = manage.writeCCNBack(interest);
         DataOutputStream dot = new DataOutputStream(cfo);
         DataOutputStream drt = new DataOutputStream(manage.putRepoFile(interest.getContentName().toURIString()));
-        JPEGImageEncoder encoder1 = JPEGCodec.createJPEGEncoder(dot);
-        JPEGImageEncoder encoder2 = JPEGCodec.createJPEGEncoder(drt);
-        BufferedImage re = resize(w,h);
-        encoder1.encode(re); // JPEG编码
-        encoder2.encode(re); // JPEG编码
-        dot.flush();
-        drt.flush();
-        dot.close();
-        drt.close();
+        ClassLoader cc = Thread.currentThread().getContextClassLoader();
+        try {
+            Class jc = cc.loadClass("com.sun.image.codec.jpeg.JPEGCodec");
+            Class jie = cc.loadClass("com.sun.image.codec.jpeg.JPEGImageEncoder");
+            Method jcm = jc.getMethod("createJPEGEncoder", OutputStream.class);
+            Method jiem = jie.getMethod("encode", BufferedImage.class);
+            Object encoder1 = jcm.invoke(null, new Object[]{dot});
+            Object encoder2 = jcm.invoke(null, new Object[]{drt});
+            BufferedImage re = resize(w,h);
+            jiem.invoke(encoder1,new Object[]{re}); // JPEG编码
+            jiem.invoke(encoder2,new Object[]{re}); // JPEG编码
+            dot.flush();
+            drt.flush();
+            dot.close();
+            drt.close();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

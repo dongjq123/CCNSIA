@@ -2,10 +2,10 @@
 <module type="JAVA_MODULE" version="4">
   <component name="FacetManager">
     <facet type="Osmorc" name="OSGi">
-      <configuration manifestGenerationMode="OsmorcControlled" manifestLocation="" jarfileLocation="imgCompress.jar" outputPathType="CompilerOutputPath" bndFileLocation="" bundlorFileLocation="" bundleActivator="edu.bupt.service.img.Activator" bundleSymbolicName="edu.bupt.service.imgcompress" bundleVersion="1.0.0" ignoreFilePattern="" useProjectDefaultManifestFileLocation="true" alwaysRebuildBundleJAR="false" doNotSynchronizeWithMaven="false">
+      <configuration manifestGenerationMode="Manually" manifestLocation="META-INF/MANIFEST.MF" jarfileLocation="imgCompress.jar" outputPathType="CompilerOutputPath" bndFileLocation="" bundlorFileLocation="" bundleActivator="edu.bupt.service.img.Activator" bundleSymbolicName="edu.bupt.service.imgcompress" bundleVersion="1.0.0" ignoreFilePattern="" useProjectDefaultManifestFileLocation="false" alwaysRebuildBundleJAR="false" doNotSynchronizeWithMaven="false">
         <additionalProperties>
           <property key="Export-Package" value="edu.bupt.service.img" />
-          <property key="Import-Package" value="edu.bupt.service.io,org.osgi.framework,org.ccnx.ccn.io,org.ccnx.ccn.protocol,javax.imageio.*" />
+          <property key="Import-Package" value="edu.bupt.service.io,org.osgi.framework,org.ccnx.ccn.io,org.ccnx.ccn.protocol,javax.imageio.*,com.sun.image.codec.jpeg.*" />
           <property key="CCNService" value="edu.bupt.service.img.ImgCompress" />
         </additionalProperties>
         <additionalJARContents />

@@ -26,7 +26,7 @@ public class OSGILauncher {
         Map<String, String> configProps = new HashMap<String, String>();
 //        configProps.put("org.osgi.framework.bundle.parent", "app");
 //        configProps.put("org.osgi.framework.bootdelegation", "javax.crypto.*,javax.crypto.interfaces.*");
-//        configProps.put("org.osgi.framework.executionenvironment", "JavaSE-1.8,JavaSE-1.7");
+        configProps.put("org.osgi.framework.executionenvironment", "JavaSE-1.8,JavaSE-1.7");
         configProps.put("org.osgi.framework.storage.clean", "onFirstInit");
         // And get a framework.
         framework = factory.newFramework(configProps);

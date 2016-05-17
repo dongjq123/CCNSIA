@@ -118,21 +118,36 @@ public class WebpageAdaptation implements ICCNService{
                     while (images.hasNext()) {
                         Element img = images.next();
                         String src = img.attr("src");
-                        if(src!=null && src.startsWith("ccnx:/")) {
-                            InputStream ipt_img = manage.getCCNFile(src); //get the img
+                        if(src!=null){
+                            if(src.startsWith("ccnx:/")) {
+                                //InputStream ipt_img = manage.getCCNFile(src); //get the img
+                                String imgsrc = src.substring(6, src.length());
+                                String restr = "ccnx:/service/edu/bupt/service/imgcompress/%7Bargs%3A"+imgsrc+"%7D";
+                                System.out.println("replace img src:"+src+","+restr);
+                                img.attr("src", restr);
+                            }else if(src.startsWith("/")){
+                                String imgsrc = src.substring(1, src.length());
+                                String restr = "ccnx:/service/edu/bupt/service/imgcompress/%7Bargs%3A"+imgsrc+"%7D";
+                                System.out.println("replace img src:"+src+","+restr);
+                                img.attr("src", restr);
+                            }else{
+                                String restr = "ccnx:/service/edu/bupt/service/imgcompress/%7Bargs%3A"+src+"%7D";
+                                System.out.println("replace img src:"+src+","+restr);
+                                img.attr("src", restr);
+                            }
 
-                            CCNFileOutputStream cfo = manage.writeCCNBack(interest);
-                            DataOutputStream dot = new DataOutputStream(cfo);
-                            DataOutputStream drt = new DataOutputStream(manage.putRepoFile(interest.getContentName().toURIString()));
-                            dot.writeChars(htmlDocument.html());
-                            drt.writeChars(htmlDocument.html());
-                            dot.flush();
-                            drt.flush();
-                            dot.close();
-                            drt.close();
                         }
                     }
                 }
+                CCNFileOutputStream cfo = manage.writeCCNBack(interest);
+                DataOutputStream dot = new DataOutputStream(cfo);
+                DataOutputStream drt = new DataOutputStream(manage.putRepoFile(interest.getContentName().toURIString()));
+                dot.writeUTF(htmlDocument.html());
+                drt.writeUTF(htmlDocument.html());
+                dot.flush();
+                drt.flush();
+                dot.close();
+                drt.close();
             }else {
                 throw new IOException("args should not be null!!");
             }

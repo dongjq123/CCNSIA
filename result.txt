@@ -492,3 +492,9 @@ ccnx:/edu.bupt.service.htmlparse.jar
 ccnx:/edu.bupt.service.htmlparse.jar
 ccnx:/edu.bupt.service.htmlparse.jar
 ccnx:/edu.bupt.service.htmlparse.jar
+ccnx:/edu.bupt.service.htmlparse.jar
+ccnx:/edu.bupt.service.htmlparse.jar
+ccnx:/edu.bupt.service.htmlparse.jar
+ccnx:/edu.bupt.service.imgcompress.jar
+ccnx:/edu.bupt.service.imgcompress.jar
+ccnx:/edu.bupt.service.imgcompress.jar

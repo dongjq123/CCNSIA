@@ -54,7 +54,7 @@ public class CCNServiceClient {
             ContentName ccname = ContentName.fromURI(Name);
             String[] splitList = Name.split("/");
             String imgName = splitList[splitList.length-1];
-            File theFile = new File("/home/yangkuang/"+imgName+"");
+            File theFile = new File("/home/fish/"+imgName+"");
             if(theFile.exists()) {
                 System.out.println("Overwriting file: " + Name);
             }
@@ -109,7 +109,7 @@ public class CCNServiceClient {
                     }
                 }
             }
-            System.exit(0);
+            return;
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -118,14 +118,23 @@ public class CCNServiceClient {
 
     public static void main(String[] args) {
         try {
+            long startTime = System.currentTimeMillis();    //获取开始时间
             String content = URLEncoder.encode("{content:test.html}", "UTF-8");
             String arg1 = URLEncoder.encode("{args:test.html}", "UTF-8");
-            String arg2 = URLEncoder.encode("{args:test.html}", "UTF-8");
+            String arg2 = URLEncoder.encode("{args:test3.html}", "UTF-8");
 
-            String html = "ccnx:/service/edu/bupt/service/htmlparse/"+content+"/"+arg1+"/"+arg2;
+            String html = "ccnx:/service/edu/bupt/service/htmlparse/"+arg1+"/"+arg2;
             System.out.println(html);
             CCNServiceClient csc = new CCNServiceClient();
             csc.CCNGetImg(csc.CCNGetStream(html));
+            long endTime = System.currentTimeMillis();    //获取结束时间
+            System.out.println("程序运行时间：" + (endTime - startTime) + "ms");    //输出程序运行时间
+//            String content1 = URLEncoder.encode("{content:DSC_2925.JPG}", "UTF-8");
+//            String arg3 = URLEncoder.encode("{args:DSC_2925.JPG}", "UTF-8");
+//            String img = "ccnx:/service/edu/bupt/service/imgcompress/"+content1+"/"+arg3;
+//            System.out.println(img);
+//            CCNServiceClient csc = new CCNServiceClient();
+//            csc.CCNGetFile(img);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
