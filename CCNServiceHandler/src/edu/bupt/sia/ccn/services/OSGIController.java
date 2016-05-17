@@ -89,8 +89,14 @@ public class OSGIController {
 //        String ServiceEntryName = "";
         if(ServiceEntryName != null && ServiceEntryName.length() > 0) {
             ServiceReference sr = bundleContext.getServiceReference(ServiceEntryName);
-            ICCNService service = (ICCNService)bundleContext.getService(sr);
-            new Thread(new ServiceExecutor(service,args,interest)).start();
+            Object o = bundleContext.getService(sr);
+            if(o instanceof ICCNService) {
+                ICCNService service = (ICCNService)o;
+                new Thread(new ServiceExecutor(service,args,interest)).start();
+            }else{
+                System.out.println("not a CCNService error!!");
+            }
+
         }else{
             System.err.println("executeServiceBySymbolicName : Can't get Service entry class");
         }
@@ -139,7 +145,12 @@ public class OSGIController {
         @Override
         public void run() {
             try {
+//                Method[] ms = service.getClass().getMethods();
+//                for(Method m : ms){
+//                    System.out.println(m.getName());
+//                }
                 service.execute(args, interest);
+
             } catch (IOException e) {
                 e.printStackTrace();
             }

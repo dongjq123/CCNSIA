@@ -109,17 +109,6 @@ public class CCNServiceManager{
 
         return removedService;
     }
-//    public CCNFileInputStream fetchService(String serviceName) throws IOException, MalformedContentNameStringException, ConfigurationException {
-//        String ccnserviceName = "ccnx:/" + serviceName + ".jar";
-//        CCNServiceHandler ccnserviceHandler = new CCNServiceHandler(ccnserviceName);
-//        ContentName serviceContentName = ContentName.fromURI(ccnserviceName);
-//        CCNHandle service_ccnHandle = ccnserviceHandler.getCCNHandle();
-
-//        CCNFileInputStream serviceStream = new CCNFileInputStream(serviceContentName, service_ccnHandle);
-        //here this function is needed to be completed
-
-//        return serviceStream;
-//    }
 
     public void installService(String serviceName, String servicePath) {
         Bundle bundle = _serviceController.installBundle(servicePath);
@@ -127,7 +116,7 @@ public class CCNServiceManager{
         String serviceVersion = bundle.getVersion().toString();
 
         int servicePopularity = 0;
-        servicePopularity = _servicePopularity.get_CCNServicePopularity().get(serviceName);
+        servicePopularity = _servicePopularity.get_CCNServicePopularity().get("ccnx:/" + serviceName + ".jar");
 
         CCNServiceObject CCNService_Object = null;
         try {
@@ -153,7 +142,7 @@ public class CCNServiceManager{
         String serviceVersion = bundle.getVersion().toString();
 
         int servicePopularity = 0;
-        //servicePopularity = _servicePopularity.get_CCNServicePopularity().get(serviceName);
+        servicePopularity = _servicePopularity.get_CCNServicePopularity().get("ccnx:/" + serviceName + ".jar");
 
         CCNServiceObject CCNService_Object = null;
         try {
@@ -177,6 +166,13 @@ public class CCNServiceManager{
             if (serviceVersion == null || same_version(serviceVersion, serviceName)) { //check service version
                 System.out.println("Service:"+serviceName+" is existed and executing..");
                 _serviceController.executeServiceBySymbolicName(serviceName, args, interest);
+
+                System.out.println("CCNServiceTable: ");
+                for (Iterator it = _serviceTable.getMap().keySet().iterator(); it.hasNext();) {
+                    String serviceName_key = it.next().toString();
+                    System.out.println(serviceName_key);
+                }
+
             } else {
                 System.out.println("Need to update the version of Service:"+serviceName+"");
                 removeService(serviceName);
@@ -191,7 +187,7 @@ public class CCNServiceManager{
                 startLocalService(serviceNameObject, interest);
             } else {
                 System.out.println("CCNServiceTable is outside the max size...Check whether Service:"+serviceName+" can be installed..");
-                if (_servicePopularity.get_CCNServicePopularity().get(serviceName) == 2) {
+                if (_servicePopularity.get_CCNServicePopularity().get("ccnx:/" + serviceName + ".jar") == 2) {
                     System.out.println("Meet the requirement to replace one old service in CCNServiceTable...Service:"+serviceName+" is installing..");
 
                     removeService(service_tobeRemoved());
@@ -206,8 +202,6 @@ public class CCNServiceManager{
     }
 
     public void startCCNService(String serviceName, CCNFileInputStream serviceStream) {
-//        Bundle bundleBase = _serviceController.installBundle("file:/home/fish/IdeaProjects/ServiceFramework/out/production/ServiceFramework.jar");
-//        Bundle bundle = _serviceController.installBundle(serviceName, serviceStream);
         _serviceController.executeServiceBySymbolicName(serviceName, null, null);
     }
 
