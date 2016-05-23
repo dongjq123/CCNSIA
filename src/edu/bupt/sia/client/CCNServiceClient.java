@@ -80,7 +80,7 @@ public class CCNServiceClient {
             }
 
             //System.out.println("ccngetfile took: " + (System.currentTimeMillis() - starttime) + "ms");
-            //System.out.println("Retrieved content " + args[1] + " got " + readtotal + " bytes.");
+            System.out.println("Retrieved content " + Name + " got " + readtotal + " bytes.");
 
         } catch (MalformedContentNameStringException var17) {
             //System.out.println("Malformed name: " + args[0] + " " + var17.getMessage());
@@ -124,14 +124,20 @@ public class CCNServiceClient {
             String arg2 = URLEncoder.encode("{args:test3.html}", "UTF-8");
 
             String html = "ccnx:/service/edu/bupt/service/htmlparse/"+arg1+"/"+arg2;
-            System.out.println(html);
+            String html1 = "ccnx:/contents/test.html";
+//            System.out.println(html);
             CCNServiceClient csc = new CCNServiceClient();
             csc.CCNGetImg(csc.CCNGetStream(html));
             long endTime = System.currentTimeMillis();    //获取结束时间
             System.out.println("程序运行时间：" + (endTime - startTime) + "ms");    //输出程序运行时间
+
+
 //            String content1 = URLEncoder.encode("{content:DSC_2925.JPG}", "UTF-8");
 //            String arg3 = URLEncoder.encode("{args:DSC_2925.JPG}", "UTF-8");
-//            String img = "ccnx:/service/edu/bupt/service/imgcompress/"+content1+"/"+arg3;
+//            String w = URLEncoder.encode("{args:300}", "UTF-8");
+//            String h = URLEncoder.encode("{args:200}", "UTF-8");
+//            String v = URLEncoder.encode("{version:DSC_2925.JPG}", "UTF-8");
+//            String img = "ccnx:/service/edu/bupt/service/imgcompress/"+arg3+"/"+w+"/"+h+"/";
 //            System.out.println(img);
 //            CCNServiceClient csc = new CCNServiceClient();
 //            csc.CCNGetFile(img);

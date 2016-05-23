@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="bcprov-jdk16-143">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/CCNxServ/CCNServices-master/lib/bcprov-jdk16-143.jar!/" />
+      <root url="jar://$USER_HOME$/CCNxServ/CCNServices-master/lib/ccn.jar!/" />
+      <root url="jar://$USER_HOME$/CCNxServ/CCNServices-master/lib/kxml2-2.3.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

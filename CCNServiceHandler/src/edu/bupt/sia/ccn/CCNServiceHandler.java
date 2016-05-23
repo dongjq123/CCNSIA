@@ -1,8 +1,8 @@
 package edu.bupt.sia.ccn;
 
 import edu.bupt.sia.ccn.services.CCNServiceManager;
+import org.ccnx.ccn.CCNFilterListener;
 import org.ccnx.ccn.CCNHandle;
-import org.ccnx.ccn.CCNInterestHandler;
 import org.ccnx.ccn.config.ConfigurationException;
 import org.ccnx.ccn.impl.support.Log;
 import org.ccnx.ccn.io.CCNFileOutputStream;
@@ -26,7 +26,7 @@ import java.util.Date;
 /**
  * Created by fish on 16-4-21.
  */
-public class CCNServiceHandler implements CCNInterestHandler {
+public class CCNServiceHandler implements CCNFilterListener {
     static String DEFAULT_URI = "ccnx:/";
 
     protected CCNHandle ccnHandle;
@@ -72,10 +72,15 @@ public class CCNServiceHandler implements CCNInterestHandler {
                     "Got an interest for the first segment of the header, ignoring {0}.",
                     interest.name());
             return false;
-        }
-        if (interest.name().contains(
+        }else if (interest.name().contains(
+                "%FD%05t".getBytes())) {
+            Log.info(
+                    "Got an interest for the repository, ignoring {0}.",
+                    interest.name());
+            return false;
+        }else if (interest.name().contains(
                 "_meta_".getBytes()) || interest.name().contains(
-                ".header".getBytes())) {
+                ".header".getBytes()) || interest.name().contains("%C1.META.M".getBytes())) {
             Log.info(
                     "Got an interest for the first segment of the header, ignoring {0}.",
                     interest.name());

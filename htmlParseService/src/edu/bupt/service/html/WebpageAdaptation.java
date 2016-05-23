@@ -141,7 +141,7 @@ public class WebpageAdaptation implements ICCNService{
                 }
                 CCNFileOutputStream cfo = manage.writeCCNBack(interest);
                 DataOutputStream dot = new DataOutputStream(cfo);
-                DataOutputStream drt = new DataOutputStream(manage.putRepoFile(interest.getContentName().toURIString()));
+                DataOutputStream drt = new DataOutputStream(manage.putRepoFile(interest.name().toURIString()));
                 dot.writeUTF(htmlDocument.html());
                 drt.writeUTF(htmlDocument.html());
                 dot.flush();

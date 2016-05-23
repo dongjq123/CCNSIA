@@ -65,6 +65,9 @@ public class ServiceNameParser {
             sn += name.stringComponent(1);
             for (int i = 2; i < count; ++i) {
                 String tmp = name.stringComponent(i);
+                if(tmp.contains("%FD%05")){
+                    return null;
+                }
                 try {
                     tmp = URLDecoder.decode(tmp, "UTF-8");
                 } catch (UnsupportedEncodingException e) {

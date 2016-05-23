@@ -69,19 +69,18 @@ public class CCNIOImpl implements CCNIOManage {
     @Override
     public CCNFileOutputStream writeCCNBack(Interest interest) {
         if (interest != null) {
-            CCNTime modificationTime = new CCNTime(new Date());
+            CCNTime modificationTime = new CCNTime(new Date(System.currentTimeMillis()));
             ContentName versionedName = VersioningProfile.updateVersion(interest.name(), modificationTime);
             CCNFileOutputStream cfo = null;
             try {
                 cfo = new CCNFileOutputStream(versionedName, ccnHandle);
+                cfo.addOutstandingInterest(interest);
+                return cfo;
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            cfo.addOutstandingInterest(interest);
-            return cfo;
-        }else{
-            return null;
         }
+        return null;
     }
 
     @Override
