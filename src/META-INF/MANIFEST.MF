@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+Class-Path: /usr/local/lib/ccn.jar /usr/local/lib/bcprov-jdk16-143.jar
+  /usr/local/lib/kxml2-2.3.0.jar
+Main-Class: edu.bupt.sia.client.CCNServiceClient
+

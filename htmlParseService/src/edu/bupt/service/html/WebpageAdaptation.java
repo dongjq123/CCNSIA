@@ -140,14 +140,15 @@ public class WebpageAdaptation implements ICCNService{
                     }
                 }
                 CCNFileOutputStream cfo = manage.writeCCNBack(interest);
+                cfo.addOutstandingInterest(interest);
                 DataOutputStream dot = new DataOutputStream(cfo);
-                DataOutputStream drt = new DataOutputStream(manage.putRepoFile(interest.name().toURIString()));
+                //DataOutputStream drt = new DataOutputStream(manage.putRepoFile(interest.name().toURIString()));
                 dot.writeUTF(htmlDocument.html());
-                drt.writeUTF(htmlDocument.html());
+                //drt.writeUTF(htmlDocument.html());
                 dot.flush();
-                drt.flush();
+                //drt.flush();
                 dot.close();
-                drt.close();
+                //drt.close();
             }else {
                 throw new IOException("args should not be null!!");
             }

@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="CCNSIA-server:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/CCNSIA_server_jar</output-path>
+    <root id="archive" name="CCNSIA-server.jar">
+      <element id="module-output" name="CCNSIA" />
+    </root>
+  </artifact>
+</component>

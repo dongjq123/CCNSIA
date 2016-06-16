@@ -15,6 +15,11 @@ public class CCNServiceObject {
     String _serviceName;
     String _serviceVersion;
     int _servicePopularity;
+    long executeTime;
+
+    public CCNServiceObject(){
+
+    }
 
     public CCNServiceObject(long serviceID, String serviceName, String serviceVersion, int servicePopularity)
             throws MalformedContentNameStringException, ConfigurationException,
@@ -43,5 +48,29 @@ public class CCNServiceObject {
     public int servicePopularity() {
 
         return _servicePopularity;
+    }
+
+    public void set_serviceID(long _serviceID) {
+        this._serviceID = _serviceID;
+    }
+
+    public void set_serviceName(String _serviceName) {
+        this._serviceName = _serviceName;
+    }
+
+    public void set_serviceVersion(String _serviceVersion) {
+        this._serviceVersion = _serviceVersion;
+    }
+
+    public void set_servicePopularity(int _servicePopularity) {
+        this._servicePopularity = _servicePopularity;
+    }
+
+    public long getExecuteTime() {
+        return executeTime;
+    }
+
+    public void setExecuteTime(long executeTime) {
+        this.executeTime = executeTime;
     }
 }

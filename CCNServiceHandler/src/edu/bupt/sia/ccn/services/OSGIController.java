@@ -8,11 +8,13 @@ import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.BundleException;
 import org.osgi.framework.ServiceReference;
-import org.osgi.framework.launch.Framework;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Hashtable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Created by fish on 16-4-11.
@@ -21,6 +23,8 @@ public class OSGIController {
     private BundleContext bundleContext;
     final static protected String CCNServiceTag = "CCNService";
     final static protected String servicePrefix = "ccnx:/";
+    private static ExecutorService threadPool = Executors.newCachedThreadPool();
+    private static Hashtable<String, Integer> Processing = new Hashtable<>();
 
     public OSGIController(BundleContext context){
         this.bundleContext = context;
@@ -92,7 +96,7 @@ public class OSGIController {
             Object o = bundleContext.getService(sr);
             if(o instanceof ICCNService) {
                 ICCNService service = (ICCNService)o;
-                new Thread(new ServiceExecutor(service,args,interest)).start();
+                threadPool.execute(new CCNServiceExecutor(bundleSymbolicName, service,args,interest));
             }else{
                 System.out.println("not a CCNService error!!");
             }
@@ -133,11 +137,13 @@ public class OSGIController {
         this.bundleContext = bundleContext;
     }
 
-    class ServiceExecutor implements Runnable {
+    class CCNServiceExecutor implements Runnable {
+        String serviceName;
         ICCNService service;
         String[] args;
         Interest interest;
-        public ServiceExecutor(ICCNService service, String[] args, Interest interest){
+        public CCNServiceExecutor(String ServieName, ICCNService service, String[] args, Interest interest){
+            this.serviceName = serviceName;
             this.service = service;
             this.args = args;
             this.interest = interest;
@@ -149,6 +155,7 @@ public class OSGIController {
 //                for(Method m : ms){
 //                    System.out.println(m.getName());
 //                }
+                System.out.println("service invocation........"+interest.name().toURIString());
                 service.execute(args, interest);
 
             } catch (IOException e) {

@@ -19,13 +19,20 @@ import java.util.Date;
  * Created by fish on 16-4-22.
  */
 public class CCNIOImpl implements CCNIOManage {
-    private CCNHandle ccnHandle;
+    private CCNHandle rccnHandle;
+    private CCNHandle wccnHandle;
+    private ContentName _prefix;
 
     public CCNIOImpl(CCNHandle ccnHandle) throws NullPointerException{
+        try {
+            this._prefix = ContentName.fromURI("ccnx:/");
+        } catch (MalformedContentNameStringException e) {
+            e.printStackTrace();
+        }
         if(ccnHandle != null){
-            //this.ccnHandle = ccnHandle;
+            this.wccnHandle = ccnHandle;
             try {
-                this.ccnHandle = CCNHandle.open();
+                this.rccnHandle = CCNHandle.open();
             } catch (ConfigurationException e) {
                 e.printStackTrace();
             } catch (IOException e) {
@@ -42,7 +49,7 @@ public class CCNIOImpl implements CCNIOManage {
 
             ContentName cn = ContentName.fromURI(contentName);
             System.out.println("getCCNFile:"+contentName);
-            CCNFileInputStream cis = new CCNFileInputStream(cn, ccnHandle);
+            CCNFileInputStream cis = new CCNFileInputStream(cn, rccnHandle);
             return cis;
         } catch (MalformedContentNameStringException e) {
             e.printStackTrace();
@@ -56,7 +63,7 @@ public class CCNIOImpl implements CCNIOManage {
     public CCNFileOutputStream putCCNFile(String contentname) {
         try {
             ContentName cn = ContentName.fromURI(contentname);
-            CCNFileOutputStream cos = new CCNFileOutputStream(cn, ccnHandle);
+            CCNFileOutputStream cos = new CCNFileOutputStream(cn, wccnHandle);
             return cos;
         } catch (MalformedContentNameStringException e) {
             e.printStackTrace();
@@ -70,10 +77,11 @@ public class CCNIOImpl implements CCNIOManage {
     public CCNFileOutputStream writeCCNBack(Interest interest) {
         if (interest != null) {
             CCNTime modificationTime = new CCNTime(new Date(System.currentTimeMillis()));
-            ContentName versionedName = VersioningProfile.updateVersion(interest.name(), modificationTime);
+            ContentName versionedName = VersioningProfile.addVersion(
+                    new ContentName(_prefix, interest.name().postfix(_prefix).components()), modificationTime);
             CCNFileOutputStream cfo = null;
             try {
-                cfo = new CCNFileOutputStream(versionedName, ccnHandle);
+                cfo = new CCNFileOutputStream(versionedName, wccnHandle);
                 cfo.addOutstandingInterest(interest);
                 return cfo;
             } catch (IOException e) {
@@ -87,7 +95,7 @@ public class CCNIOImpl implements CCNIOManage {
     public RepositoryFileOutputStream putRepoFile(String contentname) {
         try {
             ContentName cn = ContentName.fromURI(contentname);
-            RepositoryFileOutputStream ros = new RepositoryFileOutputStream(cn, ccnHandle);
+            RepositoryFileOutputStream ros = new RepositoryFileOutputStream(cn, wccnHandle);
             return ros;
         } catch (MalformedContentNameStringException e) {
             e.printStackTrace();

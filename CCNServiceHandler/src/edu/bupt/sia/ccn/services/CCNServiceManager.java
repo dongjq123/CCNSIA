@@ -20,6 +20,7 @@ public class CCNServiceManager{
     OSGIController _serviceController;
     CCNServicePopularity _servicePopularity = new CCNServicePopularity();
     Hashtable<String, Integer> _servicePriorityTable = new Hashtable<>();
+    HashMap<String, CCNServiceObject> rMap = new HashMap<>();
 
     public CCNServiceManager(BundleContext bundleContext)
             throws MalformedContentNameStringException, ConfigurationException,
@@ -142,8 +143,11 @@ public class CCNServiceManager{
         String serviceVersion = bundle.getVersion().toString();
 
         int servicePopularity = 0;
-        servicePopularity = _servicePopularity.get_CCNServicePopularity().get("ccnx:/" + serviceName + ".jar");
 
+        Integer sp = _servicePopularity.get_CCNServicePopularity().get("ccnx:/" + serviceName + ".jar");
+        if(sp != null){
+            servicePopularity = sp;
+        }
         CCNServiceObject CCNService_Object = null;
         try {
             CCNService_Object = new CCNServiceObject(serviceID, serviceName, serviceVersion, servicePopularity);
@@ -165,14 +169,21 @@ public class CCNServiceManager{
         if (service_existed(serviceName)) { //whether a service exists in the CCNServiceTable
             if (serviceVersion == null || same_version(serviceVersion, serviceName)) { //check service version
                 System.out.println("Service:"+serviceName+" is existed and executing..");
-                _serviceController.executeServiceBySymbolicName(serviceName, args, interest);
+                if (rMap.get(interest.name().toURIString()) == null) {
+                    CCNServiceObject cso = new CCNServiceObject();
+                    cso.set_serviceName(interest.name().toURIString());
+                    cso.setExecuteTime(new Date().getTime());
+                    rMap.put(interest.name().toURIString(), cso);
+                    _serviceController.executeServiceBySymbolicName(serviceName, args, interest);
 
-                System.out.println("CCNServiceTable: ");
-                for (Iterator it = _serviceTable.getMap().keySet().iterator(); it.hasNext();) {
-                    String serviceName_key = it.next().toString();
-                    System.out.println(serviceName_key);
+                    System.out.println("CCNServiceTable: ");
+                    for (Iterator it = _serviceTable.getMap().keySet().iterator(); it.hasNext();) {
+                        String serviceName_key = it.next().toString();
+                        System.out.println(serviceName_key);
+                    }
+                }else {
+                    System.out.println("Service has been executed just now... ");
                 }
-
             } else {
                 System.out.println("Need to update the version of Service:"+serviceName+"");
                 removeService(serviceName);
